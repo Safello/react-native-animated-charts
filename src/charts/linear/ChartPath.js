@@ -757,7 +757,7 @@ export function SvgComponent() {
                   stopOpacity={props.startOpacity ?? 1}
                 />
                 <Stop
-                  offset="100%"
+                  offset={props.endOffset ?? "100%"}
                   stopColor={props.backgroundGradientTo ?? "#FFFFFF"}
                   stopOpacity={props.endOpacity ?? 0}
                 />
