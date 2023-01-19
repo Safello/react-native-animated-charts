@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, View } from "react-native";
+import { Text, View } from "react-native";
 
 export const ChartYAxisLabel = ({
   containerStyle = {},
@@ -14,14 +14,20 @@ export const ChartYAxisLabel = ({
   }
 
   return (
-    <View style={{ ...YAxisLabelContainerStyle, ...containerStyle }}>
+    <View
+      pointerEvents={"none"}
+      style={{
+        ...YAxisLabelContainerStyle,
+        ...containerStyle,
+      }}
+    >
       {yAxisLabels.map((label, i) => (
-        <TextInput
+        <Text
           key={`y-axis-label-${i}`}
           style={{ ...LabelTextStyle, ...labelStyle }}
         >
           {label}
-        </TextInput>
+        </Text>
       ))}
     </View>
   );
@@ -40,14 +46,20 @@ export const ChartXAxisLabel = ({
   }
 
   return (
-    <View style={{ ...XAxisLabelContainerStyle, ...containerStyle }}>
+    <View
+      pointerEvents={"none"}
+      style={{
+        ...XAxisLabelContainerStyle,
+        ...containerStyle,
+      }}
+    >
       {xAxisLabels.map((label, i) => (
-        <TextInput
+        <Text
           key={`y-axis-label-${i}`}
           style={{ ...LabelTextStyle, ...labelStyle }}
         >
           {label}
-        </TextInput>
+        </Text>
       ))}
     </View>
   );
