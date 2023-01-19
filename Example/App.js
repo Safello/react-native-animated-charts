@@ -4,6 +4,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import BasicExample from './src/BasicExample';
 import Example from './src/GenericExample';
+import ChartAxisLabelsExample from './src/ChartAxisLabelsExample';
 //import {default as RainbowExample} from './src/RainbowExample/value-chart/ChartExpandedState';
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
           <Example />
           {/*<RainbowExample />*/}
           <BasicExample />
+          <ChartAxisLabelsExample />
         </ViewPager>
       </SafeAreaView>
     </>
