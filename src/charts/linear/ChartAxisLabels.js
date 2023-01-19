@@ -34,7 +34,7 @@ export const ChartXAxisLabel = ({
   data,
   numberOfLabels,
 }) => {
-  let xAxisLabels = getAxisLabels(data, numberOfLabels, "x").reverse();
+  let xAxisLabels = getAxisLabels(data, numberOfLabels, "x");
   if (formatter) {
     xAxisLabels = xAxisLabels.map((labelValue) => formatter(labelValue));
   }
@@ -54,6 +54,7 @@ export const ChartXAxisLabel = ({
 };
 
 const getAxisLabels = (data, numberOfEntries, key) => {
+  if (!data || data.length === 0) return [];
   const { maxValue, minValue } = getMaxAndMinValues(data, key);
   const labels = [minValue];
   const diff = maxValue - minValue;

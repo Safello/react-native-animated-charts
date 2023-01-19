@@ -1,5 +1,5 @@
-import React from 'react';
-import {Dimensions, View} from 'react-native';
+import React, {useState} from 'react';
+import {Dimensions, View, TouchableOpacity, Text} from 'react-native';
 import {
   ChartDot,
   ChartPath,
@@ -28,42 +28,71 @@ export const data = [
   {x: 1454198400, y: 2.2},
 ];
 
+export const data2 = [
+  {x: 1453075200, y: 2.47},
+  {x: 1453261600, y: 0.37},
+  {x: 1453348000, y: 1.53},
+  {x: 1454334400, y: 1.04},
+  {x: 1454420800, y: 1.12},
+  {x: 1454507200, y: 3.03},
+  {x: 1454593600, y: 2.1},
+  {x: 1454780000, y: 2.5},
+  {x: 1458866400, y: 2.3},
+  {x: 1458892800, y: 2.92},
+  {x: 1458999200, y: 2.05},
+  {x: 1459995600, y: 3.41},
+  {x: 1569992000, y: 4.43},
+  {x: 1674131553, y: 3.2},
+];
+
 const points = monotoneCubicInterpolation({data, range: 40});
+const points2 = monotoneCubicInterpolation({data: data2, range: 40});
 
 /*
 Example of how to use and customize the ChartAxisLabels
 */
-const ChartAxisLabelsExample = () => (
-  <View
-    style={{
-      backgroundColor: 'black',
-    }}>
-    <ChartPathProvider
-      data={{
-        points,
-        smoothingStrategy: 'bezier',
+const ChartAxisLabelsExample = () => {
+  const [useSecondaryData, setUseSecondaryData] = useState(false);
+
+  const selectedData = useSecondaryData ? points2 : points;
+
+  return (
+    <View
+      style={{
+        backgroundColor: 'black',
       }}>
-      <ChartPath height={SIZE / 2} stroke="yellow" width={SIZE} />
-      <ChartDot
-        style={{
-          backgroundColor: 'blue',
-        }}
-      />
-      <ChartYAxisLabel
-        data={points}
-        numberOfLabels={5}
-        formatter={percentageFormatter}
-        labelStyle={{color: 'red'}}
-      />
-      <ChartXAxisLabel
-        data={points}
-        numberOfLabels={5}
-        formatter={formatDate}
-        labelStyle={{color: 'red'}}
-      />
-    </ChartPathProvider>
-  </View>
-);
+      <ChartPathProvider
+        data={{
+          selectedData,
+          smoothingStrategy: 'bezier',
+        }}>
+        <ChartPath height={SIZE / 2} stroke="yellow" width={SIZE} />
+        <ChartDot
+          style={{
+            backgroundColor: 'blue',
+          }}
+        />
+        <ChartYAxisLabel
+          data={selectedData}
+          numberOfLabels={5}
+          formatter={percentageFormatter}
+          labelStyle={{color: 'red'}}
+        />
+        <ChartXAxisLabel
+          data={selectedData}
+          numberOfLabels={5}
+          formatter={formatDate}
+          labelStyle={{color: 'red'}}
+        />
+      </ChartPathProvider>
+      <TouchableOpacity
+        style={{backgroundColor: 'red', position: 'absolute', bottom: -100}}
+        onPress={() => setUseSecondaryData(!useSecondaryData)}>
+        <Text>Press me to switch selected data</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const percentageFormatter = value => {
   return value + ' %';
