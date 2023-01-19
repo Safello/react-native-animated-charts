@@ -63,7 +63,7 @@ const ChartAxisLabelsExample = () => {
       }}>
       <ChartPathProvider
         data={{
-          selectedData,
+          points: selectedData,
           smoothingStrategy: 'bezier',
         }}>
         <ChartPath height={SIZE / 2} stroke="yellow" width={SIZE} />
