@@ -1,19 +1,24 @@
-import React, { useContext } from 'react';
-import { TextInput } from 'react-native';
+import React, { useContext } from "react";
+import { TextInput } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
-import ChartContext from '../../helpers/ChartContext';
+import ChartContext from "../../helpers/ChartContext";
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 function ChartLabelFactory(style) {
-  return function ChartLabel({ format, ...props }) {
+  return function ChartLabel({ format, placeholder = "", ...props }) {
     const { [style]: val = 0 } = useContext(ChartContext);
     const formattedValue = useDerivedValue(() => {
-      return format ? format(val.value) : val.value;
+      const value = !!val.value
+        ? format
+          ? format(val.value)
+          : val.value
+        : placeholder;
+      return value;
     }, []);
     const textProps = useAnimatedStyle(() => {
       return {
@@ -24,12 +29,12 @@ function ChartLabelFactory(style) {
       <AnimatedTextInput
         {...props}
         animatedProps={textProps}
-        defaultValue={format ? format(val.value) : val.value}
+        defaultValue={placeholder}
         editable={false}
       />
     );
   };
 }
 
-export const ChartYLabel = ChartLabelFactory('originalY');
-export const ChartXLabel = ChartLabelFactory('originalX');
+export const ChartYLabel = ChartLabelFactory("originalY");
+export const ChartXLabel = ChartLabelFactory("originalX");
