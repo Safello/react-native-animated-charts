@@ -9,8 +9,13 @@ export const ChartYAxisLabel = ({
   numberOfLabels,
   chartExtraHeight,
   chartHeight,
+  paddingApplier = 0,
 }) => {
-  let yAxisLabels = getAxisLabels(data, numberOfLabels, "y").reverse();
+  let { minValue, maxValue } = getMaxAndMinValues(data, "y");
+  // Apply paddingApplier to align label value with Y-value
+  minValue = minValue + (maxValue - minValue) * paddingApplier;
+  maxValue = maxValue - (maxValue - minValue) * paddingApplier;
+  let yAxisLabels = getAxisLabels(minValue, maxValue, numberOfLabels).reverse();
   if (formatter) {
     yAxisLabels = yAxisLabels.map((labelValue) => formatter(labelValue));
   }
@@ -47,8 +52,14 @@ export const ChartXAxisLabel = ({
   formatter,
   data,
   numberOfLabels,
+  paddingApplier = 0.07,
 }) => {
-  let xAxisLabels = getAxisLabels(data, numberOfLabels, "x");
+  let { minValue, maxValue } = getMaxAndMinValues(data, "x");
+  // Apply paddingApplier to align label value with X-value
+  minValue = minValue + (maxValue - minValue) * paddingApplier;
+  maxValue = maxValue - (maxValue - minValue) * paddingApplier;
+
+  let xAxisLabels = getAxisLabels(minValue, maxValue, numberOfLabels);
   if (formatter) {
     xAxisLabels = xAxisLabels.map((labelValue) => formatter(labelValue));
   }
@@ -73,9 +84,7 @@ export const ChartXAxisLabel = ({
   );
 };
 
-const getAxisLabels = (data, numberOfEntries, key) => {
-  if (!data || data.length === 0) return [];
-  const { maxValue, minValue } = getMaxAndMinValues(data, key);
+const getAxisLabels = (minValue, maxValue, numberOfEntries) => {
   const labels = [minValue];
   const diff = maxValue - minValue;
   const addAmount = diff / (numberOfEntries - 1);
@@ -102,8 +111,7 @@ const YAxisLabelContainerStyle = {
   height: "100%",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between",
-  padding: 8,
+  justifyContent: "space-around",
 };
 
 const XAxisLabelContainerStyle = {
@@ -113,9 +121,8 @@ const XAxisLabelContainerStyle = {
   width: "100%",
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-between",
+  justifyContent: "space-around",
   marginBottom: -26,
-  padding: 8,
 };
 
 const LabelTextStyle = {
