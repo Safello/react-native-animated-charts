@@ -7,6 +7,8 @@ export const ChartYAxisLabel = ({
   formatter,
   data,
   numberOfLabels,
+  chartExtraHeight,
+  chartHeight,
 }) => {
   let yAxisLabels = getAxisLabels(data, numberOfLabels, "y").reverse();
   if (formatter) {
@@ -19,6 +21,12 @@ export const ChartYAxisLabel = ({
       style={{
         ...YAxisLabelContainerStyle,
         ...containerStyle,
+        ...(chartExtraHeight && chartHeight
+          ? {
+              top: -chartExtraHeight,
+              height: chartHeight + chartExtraHeight,
+            }
+          : {}),
       }}
     >
       {yAxisLabels.map((label, i) => (
