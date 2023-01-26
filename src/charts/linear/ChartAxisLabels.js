@@ -13,7 +13,7 @@ export const ChartYAxisLabel = ({
 }) => {
   let { minValue, maxValue } = getMaxAndMinValues(data, "y");
   if (chartHeight && chartExtraHeight) {
-    maxValue += (maxValue * chartExtraHeight) / chartHeight;
+    maxValue += ((maxValue - minValue) / chartHeight) * chartExtraHeight;
   }
   // Apply paddingApplier to align label value with Y-value
   minValue = minValue + (maxValue - minValue) * paddingApplier;
