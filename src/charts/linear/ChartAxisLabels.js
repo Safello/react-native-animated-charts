@@ -10,6 +10,8 @@ export const ChartYAxisLabel = ({
   chartExtraHeight,
   chartHeight,
   paddingApplier = 0,
+  rightPaddingApplier = 0,
+  leftPaddingApplier = 0,
 }) => {
   let { minValue, maxValue } = getMaxAndMinValues(data, "y");
   if (chartHeight && chartExtraHeight) {
@@ -18,6 +20,10 @@ export const ChartYAxisLabel = ({
   // Apply paddingApplier to align label value with Y-value
   minValue = minValue + (maxValue - minValue) * paddingApplier;
   maxValue = maxValue - (maxValue - minValue) * paddingApplier;
+  // Apply only right padding to values
+  maxValue = maxValue - (maxValue - minValue) * rightPaddingApplier;
+  // Apply only left padding to values
+  minValue = minValue - (maxValue - minValue) * leftPaddingApplier;
   let yAxisLabels = getAxisLabels(minValue, maxValue, numberOfLabels).reverse();
   if (formatter) {
     yAxisLabels = yAxisLabels.map((labelValue) => formatter(labelValue));
@@ -56,12 +62,17 @@ export const ChartXAxisLabel = ({
   data,
   numberOfLabels,
   paddingApplier = 0.07,
+  rightPaddingApplier = 0,
+  leftPaddingApplier = 0,
 }) => {
   let { minValue, maxValue } = getMaxAndMinValues(data, "x");
   // Apply paddingApplier to align label value with X-value
   minValue = minValue + (maxValue - minValue) * paddingApplier;
   maxValue = maxValue - (maxValue - minValue) * paddingApplier;
-
+  // Apply only right padding to values
+  maxValue = maxValue - (maxValue - minValue) * rightPaddingApplier;
+  // Apply only left padding to values
+  minValue = minValue - (maxValue - minValue) * leftPaddingApplier;
   let xAxisLabels = getAxisLabels(minValue, maxValue, numberOfLabels);
   if (formatter) {
     xAxisLabels = xAxisLabels.map((labelValue) => formatter(labelValue));
